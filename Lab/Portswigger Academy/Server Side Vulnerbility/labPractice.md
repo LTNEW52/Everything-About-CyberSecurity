@@ -1,0 +1,29 @@
+# PATH TRAVERSAL
+
+IF WEBSITE ARE NOT SECURE ENOUGH, WE CAN FIND INFORMATION BY ALTERING FILE PATH, IN EXAMPLE, IMAGE PATH. IN THIS LAB, IF WE ALTER THE IMAGE PATH FROM SAY filepath = image1 TO filepath = ../../../etc/passwd, IT SHOWS ALL STORED PASSWORD IN passwd!
+
+![PATH TRAVERSAL](../Server%20Side%20Vulnerbility/image/pathTraversal.png)
+
+---
+
+# ACCESS CONTROL 1
+
+OPEN ADMIN PANEL CAN SOMETIMES BE FOUND IN robots.txt , OR WE CAN USE BRUTE FORCE TO FIND HIDDEN PATHS. IF NOT PROTECTED, ONCE INSIDE WE CAN HARM THE SYSTEM. ONE EXAMPLE IS THIS LAB!
+
+![PATH TRAVERSAL](../Server%20Side%20Vulnerbility/image/accesspoint1a.png)
+
+![PATH TRAVERSAL](../Server%20Side%20Vulnerbility/image/accesspoint1b.png)
+
+---
+
+# ACCESS CONTROL 2
+
+SOMETIMES DEVS CAN HIDE URL BY USING RANDOM NAMES. BUT IF THEY USE IT IN CODE, THEN NO MATTER WHAT THEY NAMED IT, WE CAN FIND IT!
+
+![PATH TRAVERSAL](../Server%20Side%20Vulnerbility/image/accesspoint2a.png)
+
+![PATH TRAVERSAL](../Server%20Side%20Vulnerbility/image/accesspoint2b.png)
+
+---
+
+#
