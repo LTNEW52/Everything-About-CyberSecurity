@@ -85,3 +85,26 @@ WHEN 2FA IS IMPLEMENTED, SOMETIMES IT IS ASKED ON THE NEXT PAGE. SO USER MAY BE 
 
 ---
 
+# SERVER SIDE REQUEST FORGERY 1
+
+WE CAN ACCESS SENSITIVE PARTS OF A WEBSITE, IF IT CALLS API FROM WITHIN, USING LOCALHOST. IN THIS LAB, WE CAN CHANGE THE API REQUEST TO localhost/admin, THEN GET THE ADMIN PAGE, AFTER THAT WE CAN AGAIN CALL MODIFIED API USING localhost/admin/delete?user=carlos AND DELETE THE USER!
+
+<div style="text-align:center">
+    <img src="../Server%20Side%20Vulnerbility/image/SSRF1.png" width=1000>
+    <img src="../Server%20Side%20Vulnerbility/image/SSRF2.png" width=1000>
+</div>
+
+---
+
+# SERVER SIDE REQUEST FORGERY 2
+
+THIS WAS TOUGH BECAUSE I DIDNT UNDERSTAND THIS FIRST. WE HAVE TO USE INTRUDER TO BRUTE FORCE AND FIND 192.168.0.X FIRST, WHICH HIDES THE ADMIN PANEL. AFTER COMPLETING IT, WE CAN DELETE CARLOS LIKE PREVIOUSLY.
+
+<div style="text-align:center">
+    <img src="../Server%20Side%20Vulnerbility/image/SSRF3.png" width=1000>
+    <img src="../Server%20Side%20Vulnerbility/image/SSRF4.png" width=1000>
+</div>
+
+---
+
+# 
