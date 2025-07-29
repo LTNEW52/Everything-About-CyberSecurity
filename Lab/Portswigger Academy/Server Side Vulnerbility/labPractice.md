@@ -107,4 +107,55 @@ THIS WAS TOUGH BECAUSE I DIDNT UNDERSTAND THIS FIRST. WE HAVE TO USE INTRUDER TO
 
 ---
 
-# 
+# FILE UPLOAD VULNERABILITIES 1
+
+IF FILE UPLOAD IS NOT CHECKED, WE CAN EXPLOIT IT! ONE IS MAKING A WEB SHELL, SUCH AS file_get_contents(FILE_PATH) IN A .php FILE. AFTER UPLOADING IT, WE CAN REQUEST IT. THE PROBLEM I FACED IN THIS LAB WAS, I COULDN'T FIND WHERE THE FILE WAS BEING STORED. IT WAS /files.
+
+<div style="text-align:center">
+    <img src="../Server%20Side%20Vulnerbility/image/fileVuln1.png" width=1000>
+    <img src="../Server%20Side%20Vulnerbility/image/fileVuln2.png" width=1000>
+    <img src="../Server%20Side%20Vulnerbility/image/fileVuln3.png" width=1000>
+</div>
+
+---
+
+# FILE UPLOAD VULNERABILITIES 2
+
+MOST OF THE TIME, SOME TYPES OF CHECKING IS IN PLACE TO CHECK THE FILE TYPE. BUT IF ONLY THAT IS PRESENT, WE CAN EASILY SPOOF FILE TYPE AND EXPLOIT.
+
+<div style="text-align:center">
+    <img src="../Server%20Side%20Vulnerbility/image/fileVuln4.png" width=1000>
+    <img src="../Server%20Side%20Vulnerbility/image/fileVuln5.png" width=1000>
+</div>
+
+---
+
+# OS INJECTION
+
+IF WEBSITE USES SHELL TO STORE OR RETRIEVE INFORMATION, AND WE CAN DETECT IT, WE CAN EXPLOIT IT. THIS IS CALLED OS INJECTION.
+
+<div style="text-align:center">
+    <img src="../Server%20Side%20Vulnerbility/image/osinjection.png" width=1000>
+</div>
+
+---
+
+# SQL INJECTION 1
+
+WITH SQLI, WE CAN CHANGE SQL COMMAND AND RETIREVE DATA WHICH DOESNT OTHERWISE RETRIEVABLE. IN THIS LAB, WE USED SQL COMMAND '+OR+1=1-- TO SEE UNRELEASED PRODUCT EARLY!
+
+<div style="text-align:center">
+    <img src="../Server%20Side%20Vulnerbility/image/SQLI1.png" width=1000>
+    <img src="../Server%20Side%20Vulnerbility/image/SQLI2.png" width=1000>
+</div>
+
+---
+
+# SQL INJECTION 2
+
+WE CAN DO THIS WITH AUTHENTICATION TOO. REMOVING THE PASSWORD CAN LOG IN US AS ADMINISTRATOR
+
+<div style="text-align:center">
+    <img src="../Server%20Side%20Vulnerbility/image/SQLI3.png" width=1000>
+    <img src="../Server%20Side%20Vulnerbility/image/SQLI4.png" width=1000>
+</div>
