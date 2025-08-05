@@ -91,3 +91,23 @@ tuh5k79c29rlags5xuut | THIS WAS TOUGH. SOME DATABASE DOESNT GIVE BACK INFORMATIO
 ---
 
 # ERROR BASED SQL INJECTION 2
+
+THIS WAS VERY TOUGH. I HAD TO SEE THE ANSWER. THE PROCESS IS LIKE THIS:
+1. WHEN CAST(1 as int), WE CAN SEE THAT IT NEEDS BOOLEAN. SO, WE USE 1=cast(SOMETHING). WE CAN SEE IF ANY USERNAME CAN BE LEAKED BY USING THIS COMMAND.
+    and 1=(cast(select username from users) as int)
+2. WE CAN NOW SEE THAT IT RETRIEVE MORE THAN 1 ROW. SO WE CAN USE THE limit 1 TO LIMIT IT TO FIRST ONE.
+3. NOW WE CAN SEE THE FIRST USER IS ADMINISTRATOR. SO ITS EASY NOW, WE CHANGE USERNAME TO PASSWORD.
+
+<div style="text-align:center">
+    <img src="../SQL Injection/image/errorSQL1.png" width=1000>
+    <img src="../SQL Injection/image/errorSQL2.png" width=1000>
+    <img src="../SQL Injection/image/errorSQL3.png" width=1000>
+    <img src="../SQL Injection/image/errorSQL4.png" width=1000>
+    <img src="../SQL Injection/image/errorSQL5.png" width=1000>
+    <img src="../SQL Injection/image/errorSQL6.png" width=1000>
+    <img src="../SQL Injection/image/errorSQL7.png" width=1000>
+</div>
+
+---
+
+# EXPLOITATION BLIND SQL WITH TIME TRIGGER 
