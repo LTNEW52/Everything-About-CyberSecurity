@@ -40,3 +40,19 @@ USED THE PREVIOUS LAB KNOWLEDGE, OF X-Forwarded-For. BUT WE CAN DO THIS IN THIS 
 </div>
 
 ---
+
+# USERNAME ENUMERATION VIA ACCOUNT LOCK
+
+SOMETIMES INSTEAD OF IP LOCK, THE ACCOUNT ITSELF CAN BE LOCKED. IN THIS LAB, WE CAN USE THIS ACCOUNT LOCK METHOD TO FIND OUT LEGITAMATE USER FIRST. AFTER THAT, WE CAN SEE THAT ONE PASSWORD BEHAVES SLIGHTLY DIFFERENT THAN OTHER PASSWORD, WHAT IS MEANT BY THAT IS, IT DOESNT SHOW ANY ERROR OR LOCK MESSAGE, SO THE LENGTH IS SLIGHTLY LOW. WE CAN FIND OUT THIS PASSWORD, WAIT FOR THE LOCK TO BE OVER, AND SUCCESSFULLY BREAK IN!
+
+<div style="text-align:center">
+    <img src="../Authentication/image/userAccountLock1.png" width=1000>
+    <img src="../Authentication/image/userAccountLock2.png" width=1000>
+    <img src="../Authentication/image/userAccountLock3.png" width=1000>
+    <img src="../Authentication/image/userAccountLock4.png" width=1000>
+    <img src="../Authentication/image/userAccountLock5.png" width=1000>
+</div>
+
+---
+
+# 
