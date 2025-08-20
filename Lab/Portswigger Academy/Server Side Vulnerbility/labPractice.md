@@ -103,6 +103,7 @@ THIS WAS TOUGH BECAUSE I DIDNT UNDERSTAND THIS FIRST. WE HAVE TO USE INTRUDER TO
 <div style="text-align:center">
     <img src="../Server%20Side%20Vulnerbility/image/SSRF3.png" width=1000>
     <img src="../Server%20Side%20Vulnerbility/image/SSRF4.png" width=1000>
+    <img src="../Server%20Side%20Vulnerbility/image/SSRF5.png" width=1000>
 </div>
 
 ---
