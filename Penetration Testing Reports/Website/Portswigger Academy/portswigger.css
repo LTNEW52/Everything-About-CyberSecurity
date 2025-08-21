@@ -1,0 +1,112 @@
+:root {
+  --bg:#0b0f13;
+  --panel:#11161c;
+  --line:#1e2933;
+  --text:#e7f0f2;
+  --muted:#9fb2b8;
+  --brand:#25d366;
+  --radius:16px;
+  --shadow:0 6px 22px rgba(0,0,0,.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Header with title left and home link right */
+header {
+  display: flex;
+  justify-content:space-around;
+  align-items: center;
+  padding: 20px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+header h1 {
+  color: var(--brand);
+  font-size: 22px;
+}
+
+.home-link {
+  color: var(--brand);
+  font-size: 14px;
+  border: 1px solid var(--brand);
+  border-radius: 8px;
+  padding: 6px 14px;
+  transition: all 0.2s ease;
+}
+.home-link:hover {
+  background: var(--brand);
+  color: var(--bg);
+}
+
+/* Main content */
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Report card styles */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  transition: transform .2s ease, border-color .2s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--brand);
+}
+.card h3 {
+  color: var(--brand);
+  margin-bottom: 8px;
+}
+.card p {
+  color: var(--muted);
+  font-size: 14px;
+}
+.meta {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.card.disabled {
+  opacity: .6;
+  cursor: not-allowed;
+  border-color: var(--line);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding: 20px;
+  margin-top: 40px;
+}

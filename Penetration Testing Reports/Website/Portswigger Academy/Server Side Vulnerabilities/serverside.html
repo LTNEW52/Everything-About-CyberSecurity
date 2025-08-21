@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Server-Side Vulnerabilities — Apprentice Path</title>
+  <link rel="stylesheet" href="serverside.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Server-Side Vulnerabilities — Apprentice Path</h1>
+    <a class="home" href="../portswigger.html">← Reports</a>
+  </header>
+
+  <!-- HERO SUMMARY -->
+  <section class="hero wrap">
+    <div class="summary">
+      <h2>Executive Snapshot</h2>
+      <p>
+        Hands-on walkthrough of PortSwigger’s <strong>Server-Side Vulnerabilities (Apprentice)</strong> path. The goal was to
+        identify and validate common server-side flaws, document realistic impact, and capture clear remediation. This page is a
+        readable summary — the full PDF is available at the end.
+      </p>
+      <div class="badges">
+        <span class="pill">Author: <strong>Labib Tahmid</strong></span>
+        <span class="pill">Scope: Server-side labs</span>
+        <span class="pill">Tools: Burp Suite · Intruder · Repeater</span>
+      </div>
+    </div>
+
+    <!-- Risk snapshot (6 Critical, 7 High, 2 Medium, 0 Low) -->
+    <aside class="score">
+      <div class="metric">
+        <div class="label">Critical</div>
+        <div class="bar"><span style="width:40%"></span></div>
+        <div class="count">6</div>
+      </div>
+      <div class="metric">
+        <div class="label">High</div>
+        <div class="bar"><span style="width:47%"></span></div>
+        <div class="count">7</div>
+      </div>
+      <div class="metric">
+        <div class="label">Medium</div>
+        <div class="bar"><span style="width:13%"></span></div>
+        <div class="count">2</div>
+      </div>
+      <div class="metric">
+        <div class="label">Low</div>
+        <div class="bar"><span style="width:0%"></span></div>
+        <div class="count">0</div>
+      </div>
+      <small class="muted">Counts reflect this page's findings.</small>
+    </aside>
+  </section>
+
+  <!-- QUICK NAV -->
+  <nav class="wrap quicknav">
+    <a href="#exec">Executive Summary</a>
+    <a href="#method">Methodology</a>
+    <a href="#tools">Tools</a>
+    <a href="#findings">Findings</a>
+    <a href="#download">PDF</a>
+  </nav>
+
+  <!-- SECTIONS -->
+  <main class="wrap content">
+    <section id="exec">
+      <h2>Executive Summary</h2>
+      <p>
+        The labs reproduced fifteen issues across access control, authentication, input handling, and backend integrations.
+        Critical findings (SQL Injection, OS Command Injection, unrestricted File Upload) enable full compromise of the app and host.
+        High-severity findings (SSRF, weak access control, brute-force/2FA gaps) accelerate lateral movement and data exposure.
+      </p>
+    </section>
+
+    <section id="method">
+      <h2>Methodology</h2>
+      <ul class="bullets">
+        <li><strong>Reconnaissance</strong> — read app behavior, source hints, and paths (e.g., <code>robots.txt</code>).</li>
+        <li><strong>Scanning</strong> — map inputs/parameters through Burp Proxy; fuzz with Intruder.</li>
+        <li><strong>Exploitation</strong> — validate impact using safe payloads and evidence.</li>
+      </ul>
+    </section>
+
+    <section id="tools">
+      <h2>Tools Used</h2>
+      <div class="chips">
+        <span class="pill">Burp Suite (Community)</span>
+        <span class="pill">Burp Intruder</span>
+        <span class="pill">Burp Repeater</span>
+      </div>
+    </section>
+
+    <section id="findings">
+      <h2>Findings</h2>
+      <p class="muted">Each item below includes Impact and Recommendation.</p>
+
+      <!-- HIGH -->
+      <details class="finding" open>
+        <summary><span class="id">SS-001</span> Path Traversal <span class="cvss high">7.5</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Access to sensitive OS files (e.g., <code>/etc/passwd</code>) exposes system user data and aids credential attacks or privilege escalation.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Canonicalize and validate paths; block <code>../</code> traversal and null-byte tricks.</li>
+            <li>Whitelist directories and use safe file APIs.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-002</span> Insecure Admin Panel (robots.txt) <span class="cvss high">8.9</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Admin endpoints disclosed via <code>robots.txt</code> allow direct access to privileged functions when unprotected.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Remove sensitive hints; require authentication and server-side authorization (RBAC) on all admin routes.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-003</span> Obscured URLs <span class="cvss medium">6.5</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Hidden endpoints embedded in client code can be enumerated and accessed directly, bypassing intended navigation controls.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Enforce authorization on the server for every sensitive endpoint.</li>
+            <li>Avoid exposing secret paths in client assets; rotate and monitor endpoints.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-005</span> GUID Disclosure <span class="cvss medium">6.8</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Public GUIDs enable identifier reuse to access another user’s resources, leading to data exposure or account impersonation.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Avoid exposing identifiers publicly; validate access to resources server-side.</li>
+            <li>Rotate identifiers if leaked; add authorization checks to object access.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-006</span> Vulnerable Administration <span class="cvss high">7.4</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Exposed administrator credentials or predictable IDs allow unauthorized login and full backend control.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Rotate credentials; enforce MFA and IP restrictions for admin access.</li>
+            <li>Store salted password hashes (bcrypt/Argon2); monitor and alert on admin logins.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-007</span> Brute Force <span class="cvss high">8.8</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Unrestricted guessing of usernames and passwords leads to account takeover and potential privilege escalation.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Rate-limit and add progressive delays; implement account lockout and CAPTCHA.</li>
+            <li>Enable MFA and monitor failed login anomalies.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-008</span> 2FA Bypass <span class="cvss high">8.2</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Direct navigation to protected endpoints before 2FA completion nullifies the second factor, enabling unauthorized access.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Issue a fully privileged session only after successful 2FA.</li>
+            <li>Re-validate 2FA for sensitive operations and prevent pre-2FA session usage.</li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- CRITICAL -->
+      <details class="finding">
+        <summary><span class="id">SS-004</span> Access Control — Cookie Tampering <span class="cvss critical">9.8</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Trusting client-side flags (e.g., <code>admin=true</code>) enables instant privilege escalation by editing the cookie.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Perform authorization checks on the server; never rely on client-side role indicators.</li>
+            <li>Sign/encrypt session cookies and verify on each request.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-009</span> SSRF — Admin Access <span class="cvss critical">9.0</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Abusing server-side fetch to <code>localhost/admin</code> exposes internal admin interfaces and privileged actions.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Enforce egress allow-lists; block private ranges and <code>localhost</code>.</li>
+            <li>Validate/normalize URLs server-side; use SSRF protections and metadata service filters.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-010</span> SSRF — Internal Discovery <span class="cvss high">8.7</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Enumeration of internal IPs (e.g., <code>192.168.0.x</code>) reveals hidden services and broadens the attack surface for lateral movement.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Validate destinations against an allow-list; restrict DNS rebinding and redirects.</li>
+            <li>Segment networks; deny internal egress from web tiers by default.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-011</span> File Upload — Web Shell <span class="cvss critical">10.0</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Unrestricted uploads enable remote code execution via malicious web shells, leading to full host compromise.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Strict allow-list by type; verify MIME and magic bytes; AV/clam scan uploads.</li>
+            <li>Store outside webroot; randomize names; remove execute perms; proxy via signed URLs.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-012</span> File Upload — MIME Spoofing <span class="cvss high">8.6</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Extension-only checks can be bypassed with spoofed headers, allowing dangerous files to be accepted and executed.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Verify magic bytes; enforce server-side content inspection; convert images to safe formats.</li>
+            <li>Rename uploads; use isolated storage and expiring access links.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-013</span> OS Command Injection <span class="cvss critical">10.0</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Unsanitized input passed to shell commands enables arbitrary OS execution and complete system compromise.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Use safe library APIs instead of shell; validate/escape inputs; apply allow-lists.</li>
+            <li>Run with least privilege; contain with AppArmor/SELinux; monitor command exec.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-014</span> SQL Injection — Data Exposure <span class="cvss critical">9.8</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Injection in data queries exposes sensitive records and allows tampering, impacting confidentiality and integrity.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Use parameterized queries/ORM; centralized input validation and encoding.</li>
+            <li>Restrict DB privileges; enable query logging and anomaly detection.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="finding">
+        <summary><span class="id">SS-015</span> SQL Injection — Auth Bypass <span class="cvss critical">10.0</span></summary>
+        <div class="inner">
+          <h4>Impact</h4>
+          <p>Authentication logic can be bypassed (e.g., <code>' OR 1=1--</code>), granting unauthorized administrative access.</p>
+          <h4>Recommendation</h4>
+          <ul class="bullets">
+            <li>Prepared statements for all auth queries; sanitize inputs; avoid string concatenation.</li>
+            <li>Enforce MFA for admin users; lockouts and alerts on suspicious login patterns.</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <section id="download">
+      <h2>Full PDF</h2>
+      <p class="muted">Prefer the printable version? Open or download the report below.</p>
+      <div class="pdf">
+        <iframe src="../../../PortSwigger Academy/Server_Side_Vulnerability_Pentest_Report.pdf" title="Report PDF"></iframe>
+      </div>
+      <a class="download" href="../../../PortSwigger Academy/Server_Side_Vulnerability_Pentest_Report.pdf" download>Download PDF</a>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Labib Tahmid
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
